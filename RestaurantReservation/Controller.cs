@@ -47,5 +47,13 @@ namespace RestaurantReservation
         {
             sql.changeOrder(quanity, orderID);
         }
+
+        public void addItem(Int32 fid, string name, string stock)
+        {
+            sql.addItem(fid, name, stock);
+        }
+        public void changeStock(string stock, string fid) {
+            sql.changeStockCount(stock, fid);
+        }
     }
 }

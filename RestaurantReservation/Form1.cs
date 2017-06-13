@@ -13,12 +13,13 @@ namespace RestaurantReservation
         private const string userID = "root";
 
         // Use your own password
-        private const string pwd = "Theelitestar23";
+        private const string pwd = "";
    
         private const string dbName = "RESTAURANT";
         private DataTable waitingTable;
         private DataTable eatingTable;
         private DataTable orderTable;
+        private DataTable stockTable;
         public Form1()
         {
             InitializeComponent();
@@ -31,17 +32,17 @@ namespace RestaurantReservation
         // Connect to a database
         private void connect_Click(object sender, EventArgs e)
         {
-            controller.connect(SERVER, userID, pwd, dbName);
             waitingTable = new DataTable();
             eatingTable = new DataTable();
+            stockTable = new DataTable();
             inputPanel.Enabled = true;
             connectButton.SendToBack();
             try
             {
+                controller.connect(SERVER, userID, pwd, dbName);
                 populate_gridview("SELECT * FROM WAITING_CUST", waitingTable, dataGridView1);
-                messageLabel.Text = "hi";
                 populate_gridview("SELECT * FROM CUST_TABLE", eatingTable, tableGrid);
-                
+                populate_gridview("SELECT * FROM FOOD",stockTable, stockGrid);
                 List<String> list = controller.getFoodList("SELECT NAME FROM FOOD");
                 foreach (string item in list)
                     orderList.Items.Add(item);
@@ -67,11 +68,8 @@ namespace RestaurantReservation
         // Add a customer to the wait_list
         private void enterButton_Click(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(partyTextField.Text) < 0)
-            {
-                MessageBox.Show("Positve integer only");
+            if (isPositiveInteger(partyTextField.Text))
                 return;
-            }
             string partyName = nameTextField.Text.ToLower();
             int partySize = Convert.ToInt32(partyTextField.Text);
             int currentIndex = controller.addPartyToWaitinglist(partyName, partySize);
@@ -148,6 +146,29 @@ namespace RestaurantReservation
             }
         }
 
+        // Deselect row from food table
+        private void stockGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            label5.Text = label7.Text = "N/A";
+            textBox2.ResetText();
+            if (stockGrid.SelectedRows.Count == 1)
+                stockChangePanel.Enabled = true;
+            else
+                stockChangePanel.Enabled = false;
+        }
+
+        // Select row from food table
+        private void stockGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (stockTable.Rows.Count > 0)
+            {
+                label5.Text = stockGrid.SelectedRows[0].Cells["FID"].Value.ToString();
+                label7.Text = stockGrid.SelectedRows[0].Cells["NAME"].Value.ToString();
+                textBox2.Text = stockGrid.SelectedRows[0].Cells["STOCK"].Value.ToString();
+            }
+        }
+
+
         // Remove a customer from the waiting list
         private void deleteButton_Click(object sender, EventArgs e)
         {
@@ -164,8 +185,10 @@ namespace RestaurantReservation
         {
             if (comboBox1.SelectedIndex == 0)
                 waitingPanel.BringToFront();
-            else
+            else if (comboBox1.SelectedIndex == 1)
                 tablePanel.BringToFront();
+            else
+                stockPanel.BringToFront();
         }
 
         // Seat a party
@@ -242,10 +265,8 @@ namespace RestaurantReservation
         {
             try
             {
-                if (Convert.ToInt32(textBox1.Text) < 0) { 
-                    MessageBox.Show("Positve Integer only");
+                if (isPositiveInteger(textBox1.Text))
                     return;
-                }
                 orderTable.Rows.Add(controller.addOrder(tableNum.Text, orderList.SelectedIndex, textBox1.Text),
                 orderList.SelectedIndex,
                     orderList.SelectedItem.ToString(),
@@ -282,10 +303,9 @@ namespace RestaurantReservation
         private void changeOrder(object sender, EventArgs e)
         {
             try
-            {if (Convert.ToInt32(quantity.Text) < 0) { 
-                    MessageBox.Show("Positve Integer only");
+            {
+                if (isPositiveInteger(quantity.Text))
                     return;
-                }
                 controller.changeOrder(quantity.Text, foodGrid.SelectedRows[0].Cells["orderID"].Value.ToString());
                 foodGrid.SelectedRows[0].Cells["QUANTITY"].Value = quantity.Text;
                 messageLabel.Text = "order changed";
@@ -294,6 +314,54 @@ namespace RestaurantReservation
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (isPositiveInteger(textBox3.Text))
+                    return;
+                int count = stockTable.Rows.Count;
+                string name = textBox4.Text.ToString();
+                string stock = textBox3.Text.ToString();
+                controller.addItem(count, name, stock);
+                stockTable.Rows.Add(count, name, stock);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        // Change a item from stock
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(isPositiveInteger(textBox2.Text))
+                    return;
+
+                controller.changeStock(textBox2.Text, label5.Text);
+                stockGrid.SelectedRows[0].Cells["STOCK"].Value = textBox2.Text;
+                messageLabel.Text = "stock changed";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        // Can't have a negative integer
+        public bool isPositiveInteger(string text)
+        {
+            if (Convert.ToInt32(text) < 0)
+            {
+                MessageBox.Show("Positve Integer only");
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

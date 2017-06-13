@@ -32,6 +32,7 @@ namespace RestaurantReservation
 
             // Connect to MySQL server
             myConn = new MySqlConnection(builder.ToString());
+
             myConn.Open();
         }
 
@@ -125,5 +126,26 @@ namespace RestaurantReservation
             cmd.Parameters.Add("ID", MySqlDbType.Int32).Value = partyID;
             cmd.ExecuteNonQuery();
         }
+
+        // Insert a new row to FOOD table
+        public void addItem(Int32 fid, string name, string stock)
+        {
+            MySqlCommand cmd = new MySqlCommand("INSERT INTO FOOD VALUES(?,?,?)", myConn);
+            cmd.Parameters.Add("FID", MySqlDbType.Int32).Value = fid;
+            cmd.Parameters.Add("NAME", MySqlDbType.VarChar).Value = name;
+            cmd.Parameters.Add("STOCK", MySqlDbType.Int32).Value = stock;
+            cmd.ExecuteNonQuery();
+        }
+
+        // Update a row from FOOD table
+        public void changeStockCount(string stock, string fid)
+        {
+            String queryString = "UPDATE FOOD SET STOCK = ? WHERE FID = ?";
+            MySqlCommand cmd = new MySqlCommand(queryString, myConn);
+            cmd.Parameters.Add("STOCK", MySqlDbType.Int32).Value = stock;
+            cmd.Parameters.Add("FID", MySqlDbType.Int32).Value = fid;
+            cmd.ExecuteNonQuery();
+        }
+
     }
 }

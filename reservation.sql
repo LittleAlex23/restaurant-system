@@ -31,7 +31,7 @@ CREATE TABLE `cust_order` (
   KEY `ID` (`ID`),
   KEY `custOrder` (`FID`),
   CONSTRAINT `custOrder` FOREIGN KEY (`FID`) REFERENCES `food` (`FID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `cust_order` (
 
 LOCK TABLES `cust_order` WRITE;
 /*!40000 ALTER TABLE `cust_order` DISABLE KEYS */;
-INSERT INTO `cust_order` VALUES (7,1,1,4),(8,1,2,1),(9,1,1,5000);
+INSERT INTO `cust_order` VALUES (10,4,1,4),(15,4,3,4),(16,1,3,6);
 /*!40000 ALTER TABLE `cust_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +68,7 @@ CREATE TABLE `cust_table` (
 
 LOCK TABLES `cust_table` WRITE;
 /*!40000 ALTER TABLE `cust_table` DISABLE KEYS */;
-INSERT INTO `cust_table` VALUES (1,'tania',1,6,0),(2,NULL,0,2,1),(3,'isabelle',1,4,0),(4,'alex',1,4,0),(5,NULL,0,4,1),(6,NULL,0,4,1),(7,NULL,0,4,1),(8,NULL,0,2,1),(9,NULL,0,8,1);
+INSERT INTO `cust_table` VALUES (1,'isabelle',4,6,0),(2,NULL,0,2,1),(3,NULL,0,4,1),(4,'alex',1,4,0),(5,NULL,0,4,1),(6,NULL,0,4,1),(7,NULL,0,4,1),(8,NULL,0,2,1),(9,NULL,0,8,1);
 /*!40000 ALTER TABLE `cust_table` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -110,7 +110,7 @@ CREATE TABLE `food` (
 
 LOCK TABLES `food` WRITE;
 /*!40000 ALTER TABLE `food` DISABLE KEYS */;
-INSERT INTO `food` VALUES (0,'soup',10),(1,'cake',10),(2,'pizza',10),(3,'hamburger',10),(4,'fries',10);
+INSERT INTO `food` VALUES (0,'soup',10),(1,'cake',10),(2,'pizza',10),(3,'hamburger',10),(4,'fries',10),(5,'eggs',50),(6,'hotdog',9),(7,'corndog',1);
 /*!40000 ALTER TABLE `food` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +127,7 @@ CREATE TABLE `waiting_cust` (
   `PARTY` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `FName` (`FNAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,6 +136,7 @@ CREATE TABLE `waiting_cust` (
 
 LOCK TABLES `waiting_cust` WRITE;
 /*!40000 ALTER TABLE `waiting_cust` DISABLE KEYS */;
+INSERT INTO `waiting_cust` VALUES (47,'tony',2);
 /*!40000 ALTER TABLE `waiting_cust` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -148,4 +149,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-11 23:45:03
+-- Dump completed on 2017-06-12 23:48:26

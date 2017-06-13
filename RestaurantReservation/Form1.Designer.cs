@@ -66,6 +66,22 @@
             this.foodGrid = new System.Windows.Forms.DataGridView();
             this.backButton = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.stockPanel = new System.Windows.Forms.Panel();
+            this.stockGrid = new System.Windows.Forms.DataGridView();
+            this.stockChangePanel = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.inputPanel.SuspendLayout();
             this.waitingPanel.SuspendLayout();
@@ -74,6 +90,10 @@
             this.orderPanel.SuspendLayout();
             this.foodPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.foodGrid)).BeginInit();
+            this.stockPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stockGrid)).BeginInit();
+            this.stockChangePanel.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -458,12 +478,169 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Waiting list",
-            "Table list"});
+            "Table list",
+            "Stock list"});
             this.comboBox1.Location = new System.Drawing.Point(510, 12);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(135, 21);
             this.comboBox1.TabIndex = 15;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.panel_change);
+            // 
+            // stockPanel
+            // 
+            this.stockPanel.Controls.Add(this.panel2);
+            this.stockPanel.Controls.Add(this.stockChangePanel);
+            this.stockPanel.Controls.Add(this.stockGrid);
+            this.stockPanel.Location = new System.Drawing.Point(2, 39);
+            this.stockPanel.Name = "stockPanel";
+            this.stockPanel.Size = new System.Drawing.Size(647, 251);
+            this.stockPanel.TabIndex = 17;
+            // 
+            // stockGrid
+            // 
+            this.stockGrid.AllowUserToResizeColumns = false;
+            this.stockGrid.AllowUserToResizeRows = false;
+            this.stockGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.stockGrid.Location = new System.Drawing.Point(209, 6);
+            this.stockGrid.MultiSelect = false;
+            this.stockGrid.Name = "stockGrid";
+            this.stockGrid.ReadOnly = true;
+            this.stockGrid.Size = new System.Drawing.Size(434, 232);
+            this.stockGrid.TabIndex = 13;
+            this.stockGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stockGrid_CellClick);
+            this.stockGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.stockGrid_RowHeaderMouseClick);
+            // 
+            // stockChangePanel
+            // 
+            this.stockChangePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.stockChangePanel.Controls.Add(this.label5);
+            this.stockChangePanel.Controls.Add(this.label6);
+            this.stockChangePanel.Controls.Add(this.button2);
+            this.stockChangePanel.Controls.Add(this.label7);
+            this.stockChangePanel.Controls.Add(this.label9);
+            this.stockChangePanel.Controls.Add(this.label10);
+            this.stockChangePanel.Controls.Add(this.textBox2);
+            this.stockChangePanel.Location = new System.Drawing.Point(89, 6);
+            this.stockChangePanel.Name = "stockChangePanel";
+            this.stockChangePanel.Size = new System.Drawing.Size(120, 122);
+            this.stockChangePanel.TabIndex = 39;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(52, 10);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(27, 13);
+            this.label5.TabIndex = 32;
+            this.label5.Text = "N/A";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 10);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(45, 13);
+            this.label6.TabIndex = 31;
+            this.label6.Text = "number:";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(4, 67);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(91, 23);
+            this.button2.TabIndex = 24;
+            this.button2.Text = "change";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(52, 26);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(27, 13);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "N/A";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(1, 45);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(47, 13);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "quantity:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(13, 25);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(36, 13);
+            this.label10.TabIndex = 20;
+            this.label10.Text = "name:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(51, 41);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(41, 20);
+            this.textBox2.TabIndex = 19;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(43, 34);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(41, 20);
+            this.textBox3.TabIndex = 38;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(5, 37);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(33, 13);
+            this.label12.TabIndex = 37;
+            this.label12.Text = "stock";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(5, 10);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(36, 13);
+            this.label13.TabIndex = 36;
+            this.label13.Text = "name:";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(43, 60);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(62, 23);
+            this.button3.TabIndex = 34;
+            this.button3.Text = "add";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(43, 7);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(70, 20);
+            this.textBox4.TabIndex = 40;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.textBox4);
+            this.panel2.Controls.Add(this.textBox3);
+            this.panel2.Controls.Add(this.label12);
+            this.panel2.Controls.Add(this.button3);
+            this.panel2.Controls.Add(this.label13);
+            this.panel2.Location = new System.Drawing.Point(89, 120);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(120, 118);
+            this.panel2.TabIndex = 41;
             // 
             // Form1
             // 
@@ -476,9 +653,10 @@
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.connectButton);
             this.Controls.Add(this.disconnectButton);
-            this.Controls.Add(this.orderPanel);
+            this.Controls.Add(this.stockPanel);
             this.Controls.Add(this.tablePanel);
             this.Controls.Add(this.waitingPanel);
+            this.Controls.Add(this.orderPanel);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -492,6 +670,12 @@
             this.foodPanel.ResumeLayout(false);
             this.foodPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.foodGrid)).EndInit();
+            this.stockPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.stockGrid)).EndInit();
+            this.stockChangePanel.ResumeLayout(false);
+            this.stockChangePanel.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -536,6 +720,22 @@
         private System.Windows.Forms.Label tableNum;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel foodPanel;
+        private System.Windows.Forms.Panel stockPanel;
+        private System.Windows.Forms.DataGridView stockGrid;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Panel stockChangePanel;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 
