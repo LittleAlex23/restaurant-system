@@ -83,14 +83,21 @@ namespace RestaurantReservation
         }
 
         // Insert a new row to CUST_ORDER table
-        public int addOrder(string tableID, int foodID, string quantity) {
+        public decimal[] addOrder(string tableID, int foodID, string quantity) {
             MySqlCommand cmd = new MySqlCommand("INSERT INTO CUST_ORDER(ID,FID,QUANTITY) VALUES(?,?,?)", myConn);
             cmd.Parameters.Add("ID", MySqlDbType.Int32).Value = tableID;
             cmd.Parameters.Add("FID", MySqlDbType.Int32).Value = foodID;
             cmd.Parameters.Add("QUANTITY", MySqlDbType.Int32).Value = quantity;
             cmd.ExecuteNonQuery();
+
+            decimal[] values = new decimal[2];
             cmd = new MySqlCommand("SELECT LAST_INSERT_ID()", myConn);
-            return Convert.ToInt32(cmd.ExecuteScalar());
+            values[0] = Convert.ToInt32(cmd.ExecuteScalar());
+
+            cmd = new MySqlCommand("SELECT PRICE FROM FOOD WHERE FID = ?", myConn);
+            cmd.Parameters.Add("FID", MySqlDbType.Int32).Value = foodID;
+            values[1] = Convert.ToDecimal(cmd.ExecuteScalar());
+            return values;
         }
 
         // Remove a row from CUST_ORDER table

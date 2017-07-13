@@ -31,7 +31,7 @@ CREATE TABLE `cust_order` (
   KEY `ID` (`ID`),
   KEY `custOrder` (`FID`),
   CONSTRAINT `custOrder` FOREIGN KEY (`FID`) REFERENCES `food` (`FID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `cust_order` (
 
 LOCK TABLES `cust_order` WRITE;
 /*!40000 ALTER TABLE `cust_order` DISABLE KEYS */;
-INSERT INTO `cust_order` VALUES (10,4,1,4),(15,4,3,4),(16,1,3,6);
+INSERT INTO `cust_order` VALUES (10,4,1,4),(16,1,3,6),(23,4,0,5),(26,4,0,1),(31,4,1,1),(32,4,0,1);
 /*!40000 ALTER TABLE `cust_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,6 +100,7 @@ CREATE TABLE `food` (
   `FID` int(11) NOT NULL,
   `NAME` varchar(30) DEFAULT NULL,
   `STOCK` int(11) DEFAULT '0',
+  `PRICE` decimal(4,2) DEFAULT NULL,
   PRIMARY KEY (`FID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -110,7 +111,7 @@ CREATE TABLE `food` (
 
 LOCK TABLES `food` WRITE;
 /*!40000 ALTER TABLE `food` DISABLE KEYS */;
-INSERT INTO `food` VALUES (0,'soup',10),(1,'cake',10),(2,'pizza',10),(3,'hamburger',10),(4,'fries',10),(5,'eggs',50),(6,'hotdog',9),(7,'corndog',1);
+INSERT INTO `food` VALUES (0,'soup',10,1.99),(1,'cake',10,2.99),(2,'pizza',10,1.99),(3,'hamburger',10,3.99),(4,'fries',10,0.99),(5,'eggs',50,0.99),(6,'hotdog',9,1.99),(7,'corndog',1,1.95);
 /*!40000 ALTER TABLE `food` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,4 +150,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-12 23:48:26
+-- Dump completed on 2017-07-12 22:17:16

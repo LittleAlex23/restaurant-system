@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace RestaurantReservation
@@ -250,8 +251,11 @@ namespace RestaurantReservation
         {
             tableNum.Text = tableGrid.SelectedRows[0].Cells["TID"].Value.ToString();
             orderTable = new DataTable();
-            populate_gridview("SELECT orderID, C.FID as Num, NAME, QUANTITY FROM CUST_ORDER AS C JOIN FOOD AS F ON C.FID = F.FID WHERE ID = " + tableGrid.SelectedRows[0].Cells["TID"].Value.ToString(), orderTable, foodGrid);
+            populate_gridview("SELECT orderID, C.FID as Num, NAME, QUANTITY, PRICE FROM CUST_ORDER AS C JOIN FOOD AS F ON C.FID = F.FID WHERE ID = " + tableGrid.SelectedRows[0].Cells["TID"].Value.ToString(), orderTable, foodGrid);
             orderPanel.BringToFront();
+            calculateTotalPrice();
+
+
         }
 
         // Return to the customer table panel
@@ -267,10 +271,10 @@ namespace RestaurantReservation
             {
                 if (isPositiveInteger(textBox1.Text))
                     return;
-                orderTable.Rows.Add(controller.addOrder(tableNum.Text, orderList.SelectedIndex, textBox1.Text),
-                orderList.SelectedIndex,
-                    orderList.SelectedItem.ToString(),
-                    textBox1.Text);
+                decimal[] d = controller.addOrder(tableNum.Text, orderList.SelectedIndex, textBox1.Text);
+                orderTable.Rows.Add(d[0], orderList.SelectedIndex, orderList.SelectedItem.ToString(),
+                    textBox1.Text, d[1]);
+                calculateTotalPrice();
             }
             catch (Exception ex)
             {
@@ -296,7 +300,8 @@ namespace RestaurantReservation
 
             orderTable.Rows.RemoveAt(foodGrid.SelectedRows[0].Index);
             messageLabel.Text = "order deleted";
-            deleteButton.Enabled = false;
+            calculateTotalPrice();
+            foodPanel.Enabled = false;
         }
 
         // Change the customer's order
@@ -308,6 +313,7 @@ namespace RestaurantReservation
                     return;
                 controller.changeOrder(quantity.Text, foodGrid.SelectedRows[0].Cells["orderID"].Value.ToString());
                 foodGrid.SelectedRows[0].Cells["QUANTITY"].Value = quantity.Text;
+                calculateTotalPrice();
                 messageLabel.Text = "order changed";
             }
             catch (Exception ex)
@@ -362,6 +368,11 @@ namespace RestaurantReservation
             }
             else
                 return false;
+        }
+
+        // Calculate the total price for a customer
+        private void calculateTotalPrice() {
+            priceLabel.Text = orderTable.AsEnumerable().Sum(x => (x.Field<Int32>("QUANTITY")) * x.Field<decimal>("PRICE")).ToString();
         }
     }
 }

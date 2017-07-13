@@ -30,7 +30,7 @@ namespace RestaurantReservation
         public void cleanTable(Int32 id) {
             sql.cleanTable(id);
         }
-        public Int32 addOrder(string tableID, int foodID, string quantity) {
+        public decimal[] addOrder(string tableID, int foodID, string quantity) {
             return(sql.addOrder(tableID, foodID, quantity));
         }
         public List<String> getFoodList(string query) {
