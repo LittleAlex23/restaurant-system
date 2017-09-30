@@ -7,13 +7,18 @@ namespace RestaurantReservation
     public class Controller
     {
         private MySQLDataBaseConnection sql;
-        public Controller() {
-            sql = MySQLDataBaseConnection.getInstance();
+        private Reservation f;
+        public Controller() {}
+        public Controller(Reservation f, MySQLDataBaseConnection sql)
+        {
+            this.f = f;
+            this.sql = sql;
+            f.SetController(this);
         }
-        public void connect(string server, string userId, string pwd, string dbName) {
+        public void Connect(string server, string userId, string pwd, string dbName) {
             sql.connect(new string[4] {server, userId, pwd, dbName});
         }
-        public void disconnect() {
+        public void Disconnect() {
             sql.disconnect();
         }
         public DataTable fillTable(string queryString, DataTable table)

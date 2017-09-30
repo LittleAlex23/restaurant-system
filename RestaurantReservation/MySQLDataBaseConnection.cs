@@ -4,18 +4,18 @@ using System.Collections.Generic;
 
 namespace RestaurantReservation
 {
-    class MySQLDataBaseConnection
+    public class MySQLDataBaseConnection
     {
-        public static MySQLDataBaseConnection sql;
+        private static MySQLDataBaseConnection sql;
         private MySqlDataAdapter myDataAdapter;
         private MySqlConnection myConn;
 
-        private  MySQLDataBaseConnection(){
+        private MySQLDataBaseConnection(){
             myDataAdapter = new MySqlDataAdapter();
         }
 
         // Singleton design pattern
-        public static MySQLDataBaseConnection getInstance()
+        public static MySQLDataBaseConnection GetInstance()
         {
             if (sql == null)
                 sql = new MySQLDataBaseConnection();

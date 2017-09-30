@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace RestaurantReservation
 {
-    public partial class Form1 : Form
+    public partial class Reservation : Form
     {
         public Controller controller;
         // local server
@@ -21,15 +21,16 @@ namespace RestaurantReservation
         private DataTable eatingTable;
         private DataTable orderTable;
         private DataTable stockTable;
-        public Form1()
+        public Reservation()
         {
             InitializeComponent();
-            controller = new Controller();
             comboBox1.SelectedIndex = 0;
             dataGridView1.DataError += new DataGridViewDataErrorEventHandler(dataGridView1_DataError);
             tableGrid.DataError += new DataGridViewDataErrorEventHandler(dataGridView1_DataError);
         }
-
+        public void SetController(Controller controller) {
+            this.controller = controller;
+        }
         // Connect to a database
         private void connect_Click(object sender, EventArgs e)
         {
@@ -40,7 +41,7 @@ namespace RestaurantReservation
             connectButton.SendToBack();
             try
             {
-                controller.connect(SERVER, userID, pwd, dbName);
+                controller.Connect(SERVER, userID, pwd, dbName);
                 populate_gridview("SELECT * FROM WAITING_CUST", waitingTable, dataGridView1);
                 populate_gridview("SELECT * FROM CUST_TABLE", eatingTable, tableGrid);
                 populate_gridview("SELECT * FROM FOOD",stockTable, stockGrid);
@@ -86,6 +87,7 @@ namespace RestaurantReservation
             dataGridView1.DataSource = null;
             tableGrid.DataSource = null;
             foodGrid.DataSource = null;
+
             inputPanel.Enabled = false;
             clearButton.Enabled = false;
             assignButton.Enabled = false;
@@ -254,8 +256,7 @@ namespace RestaurantReservation
             populate_gridview("SELECT orderID, C.FID as Num, NAME, QUANTITY, PRICE FROM CUST_ORDER AS C JOIN FOOD AS F ON C.FID = F.FID WHERE ID = " + tableGrid.SelectedRows[0].Cells["TID"].Value.ToString(), orderTable, foodGrid);
             orderPanel.BringToFront();
             calculateTotalPrice();
-
-
+   
         }
 
         // Return to the customer table panel

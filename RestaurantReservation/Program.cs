@@ -16,7 +16,12 @@ namespace RestaurantReservation
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            Reservation frm = new Reservation();
+            MySQLDataBaseConnection sql = MySQLDataBaseConnection.GetInstance();
+            Controller c = new Controller(frm, sql);
+
+            Application.Run(frm);
         }
     }
 }

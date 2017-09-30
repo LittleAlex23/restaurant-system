@@ -1,6 +1,6 @@
 ﻿namespace RestaurantReservation
 {
-    partial class Form1
+    partial class Reservation
     {
         /// <summary>
         /// Required designer variable.
@@ -664,7 +664,7 @@
             this.stockGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stockGrid_CellClick);
             this.stockGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.stockGrid_RowHeaderMouseClick);
             // 
-            // Form1
+            // Reservation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -675,12 +675,12 @@
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.connectButton);
             this.Controls.Add(this.disconnectButton);
+            this.Controls.Add(this.waitingPanel);
             this.Controls.Add(this.orderPanel);
             this.Controls.Add(this.stockPanel);
             this.Controls.Add(this.tablePanel);
-            this.Controls.Add(this.waitingPanel);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Reservation";
+            this.Text = "Reservation";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.inputPanel.ResumeLayout(false);
             this.inputPanel.PerformLayout();
