@@ -16,49 +16,54 @@ namespace RestaurantReservation
             f.SetController(this);
         }
         public void Connect(string server, string userId, string pwd, string dbName) {
-            sql.connect(new string[4] {server, userId, pwd, dbName});
+            sql.Connect(new string[4] {server, userId, pwd, dbName});
         }
         public void Disconnect() {
-            sql.disconnect();
+            sql.Disconnect();
         }
-        public DataTable fillTable(string queryString, DataTable table)
+        public DataTable FillTable(string tableName, DataTable dt)
         {
-            sql.populateTable(queryString).Fill(table);
-            return table;
+            sql.PopulateTable(tableName, dt);
+            return dt;
         }
-        public Int32 addPartyToWaitinglist(string name, Int32 size) {
-            return sql.addPartyToWaitingList(name, size);
+        public DataTable FillCustomerOrderTable(string tableName, DataTable dt)
+        {
+            sql.PopulateCustomerOrderTable(tableName, dt);
+            return dt;
         }
-        public void deletePartyFromWaitingList(string name) {
-            sql.deleteParty(name);
+        public Int32 AddPartyToWaitinglist(string name, Int32 size) {
+            return sql.AddPartyToWaitingList(name, size);
         }
-        public void cleanTable(Int32 id) {
-            sql.cleanTable(id);
+        public void DeletePartyFromWaitingList(string name) {
+            sql.DeleteParty(name);
         }
-        public decimal[] addOrder(string tableID, int foodID, string quantity) {
-            return(sql.addOrder(tableID, foodID, quantity));
+        public void CleanTable(Int32 id) {
+            sql.CleanTable(id);
         }
-        public List<String> getFoodList(string query) {
-            return sql.getFoodList(query);
+        public decimal[] AddOrder(string tableID, int foodID, string quantity) {
+            return(sql.AddOrder(tableID, foodID, quantity));
+        }
+        public List<String> GetFoodList(string query) {
+            return sql.GetFoodList(query);
         }
 
-        public void seatCustomer(string TID, string name, Int32 partySize, string partyID) {
-            sql.transferCustomerToTable(TID, name, partySize, partyID);
+        public void SeatCustomer(string TID, string name, Int32 partySize, string partyID) {
+            sql.TransferCustomerToTable(TID, name, partySize, partyID);
         }
-        public void removeOrder(string ID) {
-            sql.removeOrder(ID);
+        public void RemoveOrder(string ID) {
+            sql.RemoveOrder(ID);
         }
-        public void changeOrder(string quanity, string orderID)
+        public void ChangeOrder(string quanity, string orderID)
         {
-            sql.changeOrder(quanity, orderID);
+            sql.ChangeOrder(quanity, orderID);
         }
 
-        public void addItem(Int32 fid, string name, string stock)
+        public void AddItem(Int32 fid, string name, string stock)
         {
-            sql.addItem(fid, name, stock);
+            sql.AddItem(fid, name, stock);
         }
-        public void changeStock(string stock, string fid) {
-            sql.changeStockCount(stock, fid);
+        public void ChangeStock(string stock, string fid) {
+            sql.ChangeStockCount(stock, fid);
         }
     }
 }

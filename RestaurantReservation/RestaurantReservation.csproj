@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation.cs" />
     <EmbeddedResource Include="Reservation.resx">
       <DependentUpon>Reservation.cs</DependentUpon>
     </EmbeddedResource>

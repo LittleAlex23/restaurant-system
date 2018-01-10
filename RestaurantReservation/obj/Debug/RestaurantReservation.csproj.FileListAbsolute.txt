@@ -21,3 +21,15 @@ C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\RestaurantReservation\R
 C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\RestaurantReservation\RestaurantReservation\obj\Debug\RestaurantReservation.pdb
 C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\RestaurantReservation\RestaurantReservation\obj\Debug\RestaurantReservation.csproj.CoreCompileInputs.cache
 C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\RestaurantReservation\RestaurantReservation\obj\Debug\RestaurantReservation.Reservation.resources
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\bin\Debug\RestaurantReservation.exe.config
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\bin\Debug\RestaurantReservation.exe
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\bin\Debug\RestaurantReservation.pdb
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\bin\Debug\MySql.Data.dll
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\bin\Debug\MySql.Data.xml
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\obj\Debug\RestaurantReservation.csprojResolveAssemblyReference.cache
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\obj\Debug\RestaurantReservation.Reservation.resources
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\obj\Debug\RestaurantReservation.Properties.Resources.resources
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\obj\Debug\RestaurantReservation.csproj.GenerateResource.Cache
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\obj\Debug\RestaurantReservation.csproj.CoreCompileInputs.cache
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\obj\Debug\RestaurantReservation.exe
+C:\Users\Alexandre\Documents\Visual Studio 2017\Projects\CSharp\RestaurantReservation\RestaurantReservation\obj\Debug\RestaurantReservation.pdb
