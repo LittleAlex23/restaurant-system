@@ -10,7 +10,9 @@ A database application where a restaurant host can assign a party to an availabl
 **Current status:**   
 The user can assign customers to table, view or modify the orders requested by the customers, and keep track of stocks remaining.
 
-Screenshot:
+Screenshots:
 
 ![pic1](https://user-images.githubusercontent.com/26098614/34794775-631d130e-f615-11e7-831f-edfc9cc5067f.png)
+![pic2](https://user-images.githubusercontent.com/26098614/34794937-f942c11c-f615-11e7-98ec-c3a48f2b1536.png)
+
 
