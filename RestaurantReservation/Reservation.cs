@@ -14,7 +14,7 @@ namespace RestaurantReservation
         private const string userID = "root";
 
         // Use your own password
-        private const string pwd = "Theelitestar23";
+        private const string pwd = "";
    
         private const string dbName = "RESTAURANT";
         private DataTable waitingTable;
