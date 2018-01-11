@@ -14,7 +14,7 @@ namespace RestaurantReservation
         private const string userID = "root";
 
         // Use your own password
-        private const string pwd = "";
+        private const string pwd = "Theelitestar23";
    
         private const string dbName = "RESTAURANT";
         private DataTable waitingTable;
@@ -74,8 +74,13 @@ namespace RestaurantReservation
             string partyName = nameTextField.Text.ToLower();
             int partySize = Convert.ToInt32(partyTextField.Text);
             int currentIndex = controller.AddPartyToWaitinglist(partyName, partySize);
-            waitingTable.Rows.Add(currentIndex, partyName, partySize);
-            messageLabel.Text = "row added";
+            if (currentIndex != -1)
+            {
+                waitingTable.Rows.Add(currentIndex, partyName, partySize);
+                messageLabel.Text = "row added";
+            }
+            else
+                MessageBox.Show("Name already taken");
         }
 
         // Disconnect the application from database and clear the data
@@ -135,10 +140,7 @@ namespace RestaurantReservation
         {
             idBox.Text = foodBox.Text = "N/A";
             quantity.ResetText();
-            if (foodGrid.SelectedRows.Count == 1 && foodGrid.SelectedRows[0].Cells["Num"].Value.ToString() != "")
-                foodPanel.Enabled = true;
-            else
-                foodPanel.Enabled = false;
+            foodPanel.Enabled = false;
         }
 
         // Select row from order table 
@@ -149,25 +151,30 @@ namespace RestaurantReservation
                 idBox.Text = foodGrid.SelectedRows[0].Cells["Num"].Value.ToString();
                 foodBox.Text = foodGrid.SelectedRows[0].Cells["NAME"].Value.ToString();
                 quantity.Text = foodGrid.SelectedRows[0].Cells["QUANTITY"].Value.ToString();
+                if (!foodPanel.Enabled)
+                    foodPanel.Enabled = true;
             }
         }
 
         // Deselect row from food table
         private void StockGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            label5.Text = label7.Text = "N/A";
-            textBox2.ResetText();
+            quantity_box.Enabled = false;
+            FID_value.Text = name_value.Text = "N/A";
+            quantity_box.ResetText();
             stockChangePanel.Enabled = (stockGrid.SelectedRows.Count == 1);
         }
 
         // Select row from food table
         private void StockGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (stockTable.Rows.Count > 0)
+            if (stockTable.Rows.Count > 0 )
             {
-                label5.Text = stockGrid.SelectedRows[0].Cells["FID"].Value.ToString();
-                label7.Text = stockGrid.SelectedRows[0].Cells["NAME"].Value.ToString();
-                textBox2.Text = stockGrid.SelectedRows[0].Cells["STOCK"].Value.ToString();
+                if (!quantity_box.Enabled)
+                    quantity_box.Enabled = true;
+                FID_value.Text = stockGrid.SelectedRows[0].Cells["FID"].Value.ToString();
+                name_value.Text = stockGrid.SelectedRows[0].Cells["NAME"].Value.ToString();
+                quantity_box.Text = stockGrid.SelectedRows[0].Cells["STOCK"].Value.ToString();
             }
         }
 
@@ -192,29 +199,29 @@ namespace RestaurantReservation
             }
             String id = tableGrid.SelectedRows[0].Cells["TID"].Value.ToString();
             int maxSeat = Convert.ToInt32(tableGrid.SelectedRows[0].Cells["MAX_SEAT"].Value);
+
+            // Assign the first party whose number not more than the number of seats 
             for (int i = 0; i < waitingTable.Rows.Count; i++)
             {
-                int custSize = Convert.ToInt32(waitingGrid.Rows[i].Cells["PARTY"].Value);
-                if (custSize <= maxSeat) {
-                    try
-                    {
-                        controller.SeatCustomer(id, waitingGrid.Rows[i].Cells["FNAME"].Value.ToString(), custSize, waitingGrid.Rows[i].Cells["ID"].Value.ToString());
-                        tableGrid.SelectedRows[0].Cells["FNAME"].Value = waitingGrid.Rows[i].Cells["FNAME"].Value;
-                        tableGrid.SelectedRows[0].Cells["PARTY"].Value = waitingGrid.Rows[i].Cells["PARTY"].Value;
-                        tableGrid.SelectedRows[0].Cells["isAvailable"].Value = 0;
+                DataGridViewRow w = waitingGrid.Rows[i];
+                int custSize = Convert.ToInt32(w.Cells["PARTY"].Value);
+                if (custSize <= maxSeat)
+                {
+                    controller.SeatCustomer(id, w.Cells["FNAME"].Value.ToString(), custSize, waitingGrid.Rows[i].Cells["ID"].Value.ToString());
+                    DataGridViewRow r = tableGrid.SelectedRows[0];
+                    r.Cells["FNAME"].Value = w.Cells["FNAME"].Value;
+                    r.Cells["PARTY"].Value = w.Cells["PARTY"].Value;
+                    r.Cells["isAvailable"].Value = 0;
 
-                        waitingTable.Rows.RemoveAt(i);
-                        nameTextField.Text = partyTextField.Text = "";
-                        messageLabel.Text = "Customer assigned to table";
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    waitingTable.Rows.RemoveAt(i);
+                    nameTextField.Text = partyTextField.Text = "";
+                    messageLabel.Text = "Customer assigned to table";
                     break;
                 }
                 else
-                    messageLabel.Text = "Not enough seats";
+                {
+                    MessageBox.Show("Not enough seats");
+                }
             }
 
         }
@@ -222,18 +229,15 @@ namespace RestaurantReservation
         // Make a table available for the next party
         private void Clean_table(object sender, EventArgs e)
         {
-            try
-            {
-                controller.CleanTable(Convert.ToInt32(tableGrid.SelectedRows[0].Cells["TID"].Value));
-                tableGrid.SelectedRows[0].Cells["FNAME"].Value = "";
-                tableGrid.SelectedRows[0].Cells["PARTY"].Value = 0;
-                tableGrid.SelectedRows[0].Cells["isAvailable"].Value = 1;
-                messageLabel.Text = "table cleared";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            controller.CleanTable(Convert.ToInt32(tableGrid.SelectedRows[0].Cells["TID"].Value));
+            DataGridViewRow r = tableGrid.SelectedRows[0];
+            r.Cells["FNAME"].Value = "";
+            r.Cells["PARTY"].Value = 0;
+            r.Cells["isAvailable"].Value = 1;
+            if(orderTable != null)
+                orderTable.Clear();
+            textBox1.ResetText();
+            messageLabel.Text = "table cleared";
         }
 
         // Populate the customer's order table
@@ -243,43 +247,28 @@ namespace RestaurantReservation
             orderTable = new DataTable();
             foodGrid.DataSource = controller.FillCustomerOrderTable(tableGrid.SelectedRows[0].Cells["TID"].Value.ToString(), orderTable);
             tabControl.SelectedTab = orderPage;
+            panel1.Enabled = true;
             CalculateTotalPrice();
         }
 
         // Add another order to a customer's list of orders
         private void AddOrderButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (!Validation.IsNumberPositive(textBox1.Text))
-                    return;
-                decimal[] d = controller.AddOrder(tableNum.Text, orderList.SelectedIndex, textBox1.Text);
-                orderTable.Rows.Add(d[0], orderList.SelectedIndex, orderList.SelectedItem.ToString(),
-                    textBox1.Text, d[1]);
-                CalculateTotalPrice();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            if (!Validation.IsNumberPositive(textBox1.Text))
+                return;
+            decimal[] d = controller.AddOrder(tableNum.Text, orderList.SelectedIndex, textBox1.Text);
+            orderTable.Rows.Add(d[0], orderList.SelectedIndex, orderList.SelectedItem.ToString(),
+                textBox1.Text, d[1]);
+            CalculateTotalPrice();
             messageLabel.Text = "order added to list";
         }
 
         // Remove a customer's order
         private void DeleteOrderButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                controller.RemoveOrder(foodGrid.SelectedRows[0].Cells["orderID"].Value.ToString());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
+            controller.RemoveOrder(foodGrid.SelectedRows[0].Cells["orderID"].Value.ToString());
             idBox.Text = foodBox.Text = "N/A";
             quantity.Text = "";
-
             orderTable.Rows.RemoveAt(foodGrid.SelectedRows[0].Index);
             messageLabel.Text = "order deleted";
             CalculateTotalPrice();
@@ -289,56 +278,23 @@ namespace RestaurantReservation
         // Change the customer's order
         private void ChangeOrder(object sender, EventArgs e)
         {
-            try
-            {
-                if (!Validation.IsNumberPositive(quantity.Text))
-                    return;
-                controller.ChangeOrder(quantity.Text, foodGrid.SelectedRows[0].Cells["orderID"].Value.ToString());
-                foodGrid.SelectedRows[0].Cells["QUANTITY"].Value = quantity.Text;
-                CalculateTotalPrice();
-                messageLabel.Text = "order changed";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            if (!Validation.IsNumberPositive(quantity.Text))
+                return;
+            controller.ChangeOrder(quantity.Text, foodGrid.SelectedRows[0].Cells["orderID"].Value.ToString());
+            foodGrid.SelectedRows[0].Cells["QUANTITY"].Value = quantity.Text;
+            CalculateTotalPrice();
+            messageLabel.Text = "order changed";
         }
-
-        // Add a new item to the stock list
-        private void Add_New_Item_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!Validation.IsNumberPositive(textBox3.Text))
-                    return;
-                int count = stockTable.Rows.Count;
-                string name = textBox4.Text.ToString();
-                string stock = textBox3.Text.ToString();
-                controller.AddItem(count, name, stock);
-                stockTable.Rows.Add(count, name, stock);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
+        
         // Update an item in the stock list
         private void Update_Stock_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if(!Validation.IsNumberPositive(textBox2.Text))
-                    return;
+            if(!Validation.IsNumberPositive(quantity_box.Text))
+                return;
 
-                controller.ChangeStock(textBox2.Text, label5.Text);
-                stockGrid.SelectedRows[0].Cells["STOCK"].Value = textBox2.Text;
-                messageLabel.Text = "stock changed";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            controller.ChangeStock(quantity_box.Text, FID_value.Text);
+            stockGrid.SelectedRows[0].Cells["STOCK"].Value = quantity_box.Text;
+            messageLabel.Text = "stock changed";
         }
 
         // Calculate the total price for a customer

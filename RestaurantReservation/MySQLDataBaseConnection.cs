@@ -77,15 +77,22 @@ namespace RestaurantReservation
             adapter.Fill(table);
             return table;
         }
-
+        public Boolean CheckIfNameAvailable(string name) {
+            MySqlCommand cmd = new MySqlCommand("SELECT FNAME FROM cust_table WHERE FNAME = ?", conn);
+            cmd.Parameters.Add("Fname", MySqlDbType.VarChar).Value = name;
+            return cmd.ExecuteScalar() == null;
+        }
         // Insert a new row to WAITING_CUST table
         public Int32 AddPartyToWaitingList(string name, Int32 size) {
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO WAITING_CUST(Fname,Party) VALUES(?,?)", conn);
-            cmd.Parameters.Add("Fname", MySqlDbType.VarChar).Value = name;
-            cmd.Parameters.Add("Party", MySqlDbType.Int32).Value = size;
-            cmd.ExecuteNonQuery();
-
-            return Convert.ToInt32(new MySqlCommand("SELECT LAST_INSERT_ID()", conn).ExecuteScalar());
+            Int32 id = -1;
+            if (CheckIfNameAvailable(name)) {
+                MySqlCommand cmd = new MySqlCommand("INSERT INTO WAITING_CUST(Fname,Party) VALUES(?,?)", conn);
+                cmd.Parameters.Add("Fname", MySqlDbType.VarChar).Value = name;
+                cmd.Parameters.Add("Party", MySqlDbType.Int32).Value = size;
+                cmd.ExecuteNonQuery();
+                id = Convert.ToInt32(new MySqlCommand("SELECT LAST_INSERT_ID()", conn).ExecuteScalar());
+            }
+            return id;
         }
 
         // Delete a row from WAITING_CUST table
@@ -152,16 +159,6 @@ namespace RestaurantReservation
             queryString = "DELETE FROM WAITING_CUST WHERE ID = ?";
             cmd = new MySqlCommand(queryString, conn);
             cmd.Parameters.Add("ID", MySqlDbType.Int32).Value = partyID;
-            cmd.ExecuteNonQuery();
-        }
-
-        // Insert a new row to FOOD table
-        public void AddItem(Int32 fid, string name, string stock)
-        {
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO FOOD VALUES(?,?,?)", conn);
-            cmd.Parameters.Add("FID", MySqlDbType.Int32).Value = fid;
-            cmd.Parameters.Add("NAME", MySqlDbType.VarChar).Value = name;
-            cmd.Parameters.Add("STOCK", MySqlDbType.Int32).Value = stock;
             cmd.ExecuteNonQuery();
         }
 

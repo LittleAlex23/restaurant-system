@@ -19,6 +19,8 @@ namespace RestaurantReservation
             return true;
         }
         public static bool IsNumberPositive(string str) {
+            if (str.Length == 0)
+                return false;
             foreach (char c in str)
             {
                 if (!Char.IsNumber(c))

@@ -57,11 +57,6 @@ namespace RestaurantReservation
         {
             sql.ChangeOrder(quanity, orderID);
         }
-
-        public void AddItem(Int32 fid, string name, string stock)
-        {
-            sql.AddItem(fid, name, stock);
-        }
         public void ChangeStock(string stock, string fid) {
             sql.ChangeStockCount(stock, fid);
         }
