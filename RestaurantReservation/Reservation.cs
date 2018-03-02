@@ -20,10 +20,14 @@ namespace RestaurantReservation
         private DataTable waitingTable;
         private DataTable eatingTable;
         private DataTable orderTable;
-        private DataTable stockTable;
+        private DataTable dishTable;
+        private DataTable waiterTable;
+
+        private PriceCalculator calculator;
         public Reservation()
         {
             InitializeComponent();
+            calculator = new PriceCalculator();
             waitingGrid.DataError += new DataGridViewDataErrorEventHandler(DataGridView1_DataError);
             tableGrid.DataError += new DataGridViewDataErrorEventHandler(DataGridView1_DataError);
         }
@@ -35,7 +39,10 @@ namespace RestaurantReservation
         {
             waitingTable = new DataTable();
             eatingTable = new DataTable();
-            stockTable = new DataTable();
+            orderTable = new DataTable();
+            dishTable = new DataTable();
+            waiterTable = new DataTable();
+
             inputPanel.Enabled = true;
             connectButton.SendToBack();
             try
@@ -43,7 +50,9 @@ namespace RestaurantReservation
                 controller.Connect(SERVER, userID, pwd, dbName);
                 waitingGrid.DataSource = controller.FillTable("WAITING_CUST", waitingTable);
                 tableGrid.DataSource = controller.FillTable("CUST_TABLE", eatingTable);
-                stockGrid.DataSource = controller.FillTable("FOOD", stockTable);
+                dishGrid.DataSource = controller.FillTable("DISH", dishTable);
+                waiterGrid.DataSource = controller.FillTable("WAITER", waiterTable);
+
                 InitializeMenu();
                 tabControl.Enabled = true;
             }
@@ -53,10 +62,11 @@ namespace RestaurantReservation
             }
             messageLabel.Text = "Connected to database";
         }
+
+        // Initialize the combo box with dish;
         private void InitializeMenu() {
-            List<String> list = controller.GetFoodList("SELECT NAME FROM FOOD");
-            foreach (string item in list)
-                orderList.Items.Add(item);
+            List<String> list = controller.GetDishList();
+            list.ForEach((item) => orderList.Items.Add(item));
             orderList.SelectedIndex = 0;
         }
         private void DataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -68,22 +78,28 @@ namespace RestaurantReservation
         private void EnterButton_Click(object sender, EventArgs e)
         {
             if (!Validation.IsNameValid(nameTextField.Text))
+            {
+                MessageBox.Show("Name is invalid");
                 return;
+            }
             if (!Validation.IsNumberPositive(partyTextField.Text))
+            {
+                MessageBox.Show("Number must be positive");
                 return;
+            }
             string partyName = nameTextField.Text.ToLower();
             int partySize = Convert.ToInt32(partyTextField.Text);
             int currentIndex = controller.AddPartyToWaitinglist(partyName, partySize);
             if (currentIndex != -1)
             {
-                waitingTable.Rows.Add(currentIndex, partyName, partySize);
+                waitingTable.Rows.Add(currentIndex, partyName, partySize, DateTime.Now.ToString("HH:mm:ss"));
                 messageLabel.Text = "row added";
             }
             else
                 MessageBox.Show("Name already taken");
         }
 
-        // Disconnect the application from database and clear the data
+        // Disconnect the application from database and clear the contents from every DataTable
         private void DisconnectButton_Click(object sender, EventArgs e)
         {
             disconnectButton.SendToBack();
@@ -92,7 +108,7 @@ namespace RestaurantReservation
             eatingTable.Clear();
             if(orderTable != null)
                 orderTable.Clear();
-            stockTable.Clear();
+            dishTable.Clear();
 
             inputPanel.Enabled = false;
             clearButton.Enabled = false;
@@ -112,12 +128,13 @@ namespace RestaurantReservation
             }
         }
 
+        // Deselect the row from waiting table
         private void Waiting_list_cell_clicked(object sender, DataGridViewCellEventArgs e)
         {
             deleteButton.Enabled = false;
         }
 
-        // Row from customer table is selected
+        // A row from customer table is selected
         private void TableGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (eatingTable.Rows.Count != 0)
@@ -128,178 +145,178 @@ namespace RestaurantReservation
                     assignButton.Enabled = true;
             }
         }
-
+        // Deselect the row from seating table
         private void TableGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             orderButton.Enabled = assignButton.Enabled = clearButton.Enabled = false;
-            foodPanel.Enabled = false;
+            dishPanel.Enabled = false;
         }
 
         // Deselect the row from order table
-        private void FoodGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void DishGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            idBox.Text = foodBox.Text = "N/A";
+            idBox.Text = dishBox.Text = "N/A";
             quantity.ResetText();
-            foodPanel.Enabled = false;
+            dishPanel.Enabled = false;
         }
 
         // Select row from order table 
         private void FoodGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            DataGridViewRow r = orderGrid.SelectedRows[0];
             if (orderTable.Rows.Count > 0)
             {
-                idBox.Text = foodGrid.SelectedRows[0].Cells["Num"].Value.ToString();
-                foodBox.Text = foodGrid.SelectedRows[0].Cells["NAME"].Value.ToString();
-                quantity.Text = foodGrid.SelectedRows[0].Cells["QUANTITY"].Value.ToString();
-                if (!foodPanel.Enabled)
-                    foodPanel.Enabled = true;
+                idBox.Text = r.Cells["Num"].Value.ToString();
+                dishBox.Text = r.Cells["DNAME"].Value.ToString();
+                quantity.Text = r.Cells["QUANTITY"].Value.ToString();
+                if (!dishPanel.Enabled)
+                    dishPanel.Enabled = true;
             }
         }
 
-        // Deselect row from food table
-        private void StockGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        // Deselect row from dish table
+        private void dishGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             quantity_box.Enabled = false;
             FID_value.Text = name_value.Text = "N/A";
             quantity_box.ResetText();
-            stockChangePanel.Enabled = (stockGrid.SelectedRows.Count == 1);
+            dishChangePanel.Enabled = (dishGrid.SelectedRows.Count == 1);
         }
 
-        // Select row from food table
-        private void StockGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        // Select row from dish table
+        private void DishGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (stockTable.Rows.Count > 0 )
+            if (dishTable.Rows.Count > 0 )
             {
                 if (!quantity_box.Enabled)
                     quantity_box.Enabled = true;
-                FID_value.Text = stockGrid.SelectedRows[0].Cells["FID"].Value.ToString();
-                name_value.Text = stockGrid.SelectedRows[0].Cells["NAME"].Value.ToString();
-                quantity_box.Text = stockGrid.SelectedRows[0].Cells["STOCK"].Value.ToString();
+                DataGridViewRow r = dishGrid.SelectedRows[0];
+                FID_value.Text = r.Cells["ID"].Value.ToString();
+                name_value.Text = r.Cells["DNAME"].Value.ToString();
+                quantity_box.Text = r.Cells["STOCK"].Value.ToString();
             }
         }
 
-        // Remove a customer from the waiting list
+        // Remove the party from the waiting list
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             controller.DeletePartyFromWaitingList(nameTextField.Text.ToLower());
-
-            nameTextField.Text = partyTextField.Text = "";
+            nameTextField.ResetText();
+            partyTextField.ResetText();
             waitingTable.Rows.RemoveAt(waitingGrid.SelectedRows[0].Index);
             messageLabel.Text = "row deleted";
             deleteButton.Enabled = false;
         }
 
-        // Seat a party
+        // Assign the available table to any party, if possible
         private void Seat_customer(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(tableGrid.SelectedRows[0].Cells["isAvailable"].Value) == 0)
+            DataGridViewRow r = tableGrid.SelectedRows[0];
+            if (Convert.ToInt32(r.Cells["isAvailable"].Value) == 0)
             {
                 messageLabel.Text = "That table is not available";
                 return;
             }
-            String id = tableGrid.SelectedRows[0].Cells["TID"].Value.ToString();
-            int maxSeat = Convert.ToInt32(tableGrid.SelectedRows[0].Cells["MAX_SEAT"].Value);
+            String id = r.Cells["CID"].Value.ToString();
+            int maxSeat = Convert.ToInt32(r.Cells["MAX_SEAT"].Value);
 
-            // Assign the first party whose number not more than the number of seats 
+            // Assign the first party whose number is less than the number of seats 
             for (int i = 0; i < waitingTable.Rows.Count; i++)
             {
                 DataGridViewRow w = waitingGrid.Rows[i];
-                int custSize = Convert.ToInt32(w.Cells["PARTY"].Value);
+                int custSize = Convert.ToInt32(w.Cells["SIZE"].Value);
                 if (custSize <= maxSeat)
                 {
-                    controller.SeatCustomer(id, w.Cells["FNAME"].Value.ToString(), custSize, waitingGrid.Rows[i].Cells["ID"].Value.ToString());
-                    DataGridViewRow r = tableGrid.SelectedRows[0];
-                    r.Cells["FNAME"].Value = w.Cells["FNAME"].Value;
-                    r.Cells["PARTY"].Value = w.Cells["PARTY"].Value;
+                    controller.SeatCustomer(id, w.Cells["PNAME"].Value.ToString(), custSize, waitingGrid.Rows[i].Cells["WID"].Value.ToString());
+                    r = tableGrid.SelectedRows[0];
+                    r.Cells["PNAME"].Value = w.Cells["PNAME"].Value;
+                    r.Cells["SIZE"].Value = w.Cells["SIZE"].Value;
                     r.Cells["isAvailable"].Value = 0;
 
                     waitingTable.Rows.RemoveAt(i);
-                    nameTextField.Text = partyTextField.Text = "";
+                    nameTextField.ResetText();
+                    partyTextField.ResetText();
                     messageLabel.Text = "Customer assigned to table";
                     break;
                 }
-                else
-                {
-                    MessageBox.Show("Not enough seats");
-                }
             }
-
         }
 
-        // Make a table available for the next party
+        // Make the seating table available
         private void Clean_table(object sender, EventArgs e)
         {
-            controller.CleanTable(Convert.ToInt32(tableGrid.SelectedRows[0].Cells["TID"].Value));
+            controller.CleanTable(Convert.ToInt32(tableGrid.SelectedRows[0].Cells["CID"].Value));
             DataGridViewRow r = tableGrid.SelectedRows[0];
-            r.Cells["FNAME"].Value = "";
-            r.Cells["PARTY"].Value = 0;
+            r.Cells["PNAME"].Value = "";
+            r.Cells["SIZE"].Value = 0;
             r.Cells["isAvailable"].Value = 1;
             if(orderTable != null)
                 orderTable.Clear();
-            textBox1.ResetText();
+            quantityText.ResetText();
             messageLabel.Text = "table cleared";
         }
 
-        // Populate the customer's order table
+        // Populate the party's order table
         private void OrderButton_Click(object sender, EventArgs e)
         {
-            tableNum.Text = tableGrid.SelectedRows[0].Cells["TID"].Value.ToString();
-            orderTable = new DataTable();
-            foodGrid.DataSource = controller.FillCustomerOrderTable(tableGrid.SelectedRows[0].Cells["TID"].Value.ToString(), orderTable);
+            DataGridViewRow r = tableGrid.SelectedRows[0];
+            tableNum.Text = r.Cells["CID"].Value.ToString();
+            orderTable.Clear();
+            orderGrid.DataSource = controller.FillCustomerOrderTable(r.Cells["CID"].Value.ToString(), orderTable);
             tabControl.SelectedTab = orderPage;
             panel1.Enabled = true;
             CalculateTotalPrice();
         }
 
-        // Add another order to a customer's list of orders
+        // Add another order to the party's order list 
         private void AddOrderButton_Click(object sender, EventArgs e)
         {
-            if (!Validation.IsNumberPositive(textBox1.Text))
+            if (!Validation.IsNumberPositive(quantityText.Text))
                 return;
-            decimal[] d = controller.AddOrder(tableNum.Text, orderList.SelectedIndex, textBox1.Text);
-            orderTable.Rows.Add(d[0], orderList.SelectedIndex, orderList.SelectedItem.ToString(),
-                textBox1.Text, d[1]);
+            decimal[] d = controller.AddOrder(tableNum.Text, orderList.SelectedIndex+1, quantityText.Text);
+            orderTable.Rows.Add(d[0], orderList.SelectedIndex, orderList.SelectedItem.ToString(), quantityText.Text, d[1]);
             CalculateTotalPrice();
             messageLabel.Text = "order added to list";
         }
 
-        // Remove a customer's order
+        // Remove the party's order
         private void DeleteOrderButton_Click(object sender, EventArgs e)
         {
-            controller.RemoveOrder(foodGrid.SelectedRows[0].Cells["orderID"].Value.ToString());
-            idBox.Text = foodBox.Text = "N/A";
-            quantity.Text = "";
-            orderTable.Rows.RemoveAt(foodGrid.SelectedRows[0].Index);
+            DataGridViewRow r = orderGrid.SelectedRows[0];
+            controller.RemoveOrder(r.Cells["order_ID"].Value.ToString());
+            idBox.Text = dishBox.Text = "N/A";
+            quantity.ResetText();
+            orderTable.Rows.RemoveAt(r.Index);
             messageLabel.Text = "order deleted";
             CalculateTotalPrice();
-            foodPanel.Enabled = false;
+            dishPanel.Enabled = false;
         }
 
-        // Change the customer's order
+        // Change the party's order
         private void ChangeOrder(object sender, EventArgs e)
         {
             if (!Validation.IsNumberPositive(quantity.Text))
                 return;
-            controller.ChangeOrder(quantity.Text, foodGrid.SelectedRows[0].Cells["orderID"].Value.ToString());
-            foodGrid.SelectedRows[0].Cells["QUANTITY"].Value = quantity.Text;
+            controller.ChangeOrder(quantity.Text, orderGrid.SelectedRows[0].Cells["orderID"].Value.ToString());
+            orderGrid.SelectedRows[0].Cells["QUANTITY"].Value = quantity.Text;
             CalculateTotalPrice();
             messageLabel.Text = "order changed";
         }
         
-        // Update an item in the stock list
+        // Update an item in the dish list
         private void Update_Stock_Click(object sender, EventArgs e)
         {
             if(!Validation.IsNumberPositive(quantity_box.Text))
                 return;
 
             controller.ChangeStock(quantity_box.Text, FID_value.Text);
-            stockGrid.SelectedRows[0].Cells["STOCK"].Value = quantity_box.Text;
+            dishGrid.SelectedRows[0].Cells["STOCK"].Value = quantity_box.Text;
             messageLabel.Text = "stock changed";
         }
 
-        // Calculate the total price for a customer
+        // Calculate the total price for the party
         private void CalculateTotalPrice() {
-            priceLabel.Text = orderTable.AsEnumerable().Sum(x => (x.Field<Int32>("QUANTITY")) * x.Field<decimal>("PRICE")).ToString();
+            priceLabel.Text = calculator.Calculate(orderTable);
         }
     }
 }

@@ -7,11 +7,9 @@ namespace RestaurantReservation
     public class Controller
     {
         private MySQLDataBaseConnection sql;
-        private Reservation f;
         public Controller() {}
         public Controller(Reservation f, MySQLDataBaseConnection sql)
         {
-            this.f = f;
             this.sql = sql;
             f.SetController(this);
         }
@@ -43,10 +41,9 @@ namespace RestaurantReservation
         public decimal[] AddOrder(string tableID, int foodID, string quantity) {
             return(sql.AddOrder(tableID, foodID, quantity));
         }
-        public List<String> GetFoodList(string query) {
-            return sql.GetFoodList(query);
+        public List<String> GetDishList() {
+            return sql.GetStockList();
         }
-
         public void SeatCustomer(string TID, string name, Int32 partySize, string partyID) {
             sql.TransferCustomerToTable(TID, name, partySize, partyID);
         }

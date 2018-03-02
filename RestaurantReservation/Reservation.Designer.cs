@@ -38,24 +38,24 @@
             this.tableGrid = new System.Windows.Forms.DataGridView();
             this.label11 = new System.Windows.Forms.Label();
             this.priceLabel = new System.Windows.Forms.Label();
-            this.foodPanel = new System.Windows.Forms.Panel();
+            this.dishPanel = new System.Windows.Forms.Panel();
             this.tableNum = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.deleteOrderButton = new System.Windows.Forms.Button();
             this.changeOrderButton = new System.Windows.Forms.Button();
-            this.foodBox = new System.Windows.Forms.Label();
+            this.dishBox = new System.Windows.Forms.Label();
             this.idBox = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.nameBox = new System.Windows.Forms.Label();
             this.quantity = new System.Windows.Forms.TextBox();
             this.idLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.quantityText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.orderList = new System.Windows.Forms.ComboBox();
             this.addOrderButton = new System.Windows.Forms.Button();
-            this.foodGrid = new System.Windows.Forms.DataGridView();
-            this.stockChangePanel = new System.Windows.Forms.Panel();
+            this.orderGrid = new System.Windows.Forms.DataGridView();
+            this.dishChangePanel = new System.Windows.Forms.Panel();
             this.FID_value = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
@@ -63,7 +63,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.quantity_box = new System.Windows.Forms.TextBox();
-            this.stockGrid = new System.Windows.Forms.DataGridView();
+            this.dishGrid = new System.Windows.Forms.DataGridView();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.waitingPage = new System.Windows.Forms.TabPage();
             this.inputPanel = new System.Windows.Forms.Panel();
@@ -78,11 +78,13 @@
             this.orderPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.stockPage = new System.Windows.Forms.TabPage();
+            this.WaiterPage = new System.Windows.Forms.TabPage();
+            this.waiterGrid = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.tableGrid)).BeginInit();
-            this.foodPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.foodGrid)).BeginInit();
-            this.stockChangePanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.stockGrid)).BeginInit();
+            this.dishPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.orderGrid)).BeginInit();
+            this.dishChangePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dishGrid)).BeginInit();
             this.tabControl.SuspendLayout();
             this.waitingPage.SuspendLayout();
             this.inputPanel.SuspendLayout();
@@ -91,6 +93,8 @@
             this.orderPage.SuspendLayout();
             this.panel1.SuspendLayout();
             this.stockPage.SuspendLayout();
+            this.WaiterPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.waiterGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // statusLabel
@@ -184,7 +188,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(583, 209);
+            this.label11.Location = new System.Drawing.Point(572, 200);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(13, 13);
             this.label11.TabIndex = 33;
@@ -193,30 +197,30 @@
             // priceLabel
             // 
             this.priceLabel.AutoSize = true;
-            this.priceLabel.Location = new System.Drawing.Point(602, 209);
+            this.priceLabel.Location = new System.Drawing.Point(588, 200);
             this.priceLabel.Name = "priceLabel";
             this.priceLabel.Size = new System.Drawing.Size(27, 13);
             this.priceLabel.TabIndex = 33;
             this.priceLabel.Text = "N/A";
             // 
-            // foodPanel
+            // dishPanel
             // 
-            this.foodPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.foodPanel.Controls.Add(this.tableNum);
-            this.foodPanel.Controls.Add(this.label4);
-            this.foodPanel.Controls.Add(this.deleteOrderButton);
-            this.foodPanel.Controls.Add(this.changeOrderButton);
-            this.foodPanel.Controls.Add(this.foodBox);
-            this.foodPanel.Controls.Add(this.idBox);
-            this.foodPanel.Controls.Add(this.label2);
-            this.foodPanel.Controls.Add(this.nameBox);
-            this.foodPanel.Controls.Add(this.quantity);
-            this.foodPanel.Controls.Add(this.idLabel);
-            this.foodPanel.Enabled = false;
-            this.foodPanel.Location = new System.Drawing.Point(6, 6);
-            this.foodPanel.Name = "foodPanel";
-            this.foodPanel.Size = new System.Drawing.Size(147, 105);
-            this.foodPanel.TabIndex = 33;
+            this.dishPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dishPanel.Controls.Add(this.tableNum);
+            this.dishPanel.Controls.Add(this.label4);
+            this.dishPanel.Controls.Add(this.deleteOrderButton);
+            this.dishPanel.Controls.Add(this.changeOrderButton);
+            this.dishPanel.Controls.Add(this.dishBox);
+            this.dishPanel.Controls.Add(this.idBox);
+            this.dishPanel.Controls.Add(this.label2);
+            this.dishPanel.Controls.Add(this.nameBox);
+            this.dishPanel.Controls.Add(this.quantity);
+            this.dishPanel.Controls.Add(this.idLabel);
+            this.dishPanel.Enabled = false;
+            this.dishPanel.Location = new System.Drawing.Point(6, 6);
+            this.dishPanel.Name = "dishPanel";
+            this.dishPanel.Size = new System.Drawing.Size(147, 105);
+            this.dishPanel.TabIndex = 33;
             // 
             // tableNum
             // 
@@ -230,7 +234,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 5);
+            this.label4.Location = new System.Drawing.Point(20, 5);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(33, 13);
             this.label4.TabIndex = 31;
@@ -256,14 +260,14 @@
             this.changeOrderButton.UseVisualStyleBackColor = true;
             this.changeOrderButton.Click += new System.EventHandler(this.ChangeOrder);
             // 
-            // foodBox
+            // dishBox
             // 
-            this.foodBox.AutoSize = true;
-            this.foodBox.Location = new System.Drawing.Point(51, 31);
-            this.foodBox.Name = "foodBox";
-            this.foodBox.Size = new System.Drawing.Size(27, 13);
-            this.foodBox.TabIndex = 23;
-            this.foodBox.Text = "N/A";
+            this.dishBox.AutoSize = true;
+            this.dishBox.Location = new System.Drawing.Point(51, 31);
+            this.dishBox.Name = "dishBox";
+            this.dishBox.Size = new System.Drawing.Size(27, 13);
+            this.dishBox.TabIndex = 23;
+            this.dishBox.Text = "N/A";
             // 
             // idBox
             // 
@@ -296,7 +300,7 @@
             // 
             this.quantity.Location = new System.Drawing.Point(54, 47);
             this.quantity.Name = "quantity";
-            this.quantity.Size = new System.Drawing.Size(41, 20);
+            this.quantity.Size = new System.Drawing.Size(25, 20);
             this.quantity.TabIndex = 19;
             // 
             // idLabel
@@ -308,12 +312,12 @@
             this.idLabel.TabIndex = 16;
             this.idLabel.Text = "order #:";
             // 
-            // textBox1
+            // quantityText
             // 
-            this.textBox1.Location = new System.Drawing.Point(45, 30);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(97, 20);
-            this.textBox1.TabIndex = 30;
+            this.quantityText.Location = new System.Drawing.Point(45, 30);
+            this.quantityText.Name = "quantityText";
+            this.quantityText.Size = new System.Drawing.Size(97, 20);
+            this.quantityText.TabIndex = 30;
             // 
             // label1
             // 
@@ -352,39 +356,39 @@
             this.addOrderButton.UseVisualStyleBackColor = true;
             this.addOrderButton.Click += new System.EventHandler(this.AddOrderButton_Click);
             // 
-            // foodGrid
+            // orderGrid
             // 
-            this.foodGrid.AllowUserToAddRows = false;
-            this.foodGrid.AllowUserToDeleteRows = false;
-            this.foodGrid.AllowUserToResizeColumns = false;
-            this.foodGrid.AllowUserToResizeRows = false;
-            this.foodGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.foodGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.foodGrid.Location = new System.Drawing.Point(159, 6);
-            this.foodGrid.MultiSelect = false;
-            this.foodGrid.Name = "foodGrid";
-            this.foodGrid.ReadOnly = true;
-            this.foodGrid.Size = new System.Drawing.Size(467, 191);
-            this.foodGrid.TabIndex = 15;
-            this.foodGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FoodGrid_CellClick);
-            this.foodGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FoodGrid_RowHeaderMouseClick);
+            this.orderGrid.AllowUserToAddRows = false;
+            this.orderGrid.AllowUserToDeleteRows = false;
+            this.orderGrid.AllowUserToResizeColumns = false;
+            this.orderGrid.AllowUserToResizeRows = false;
+            this.orderGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.orderGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.orderGrid.Location = new System.Drawing.Point(159, 6);
+            this.orderGrid.MultiSelect = false;
+            this.orderGrid.Name = "orderGrid";
+            this.orderGrid.ReadOnly = true;
+            this.orderGrid.Size = new System.Drawing.Size(467, 191);
+            this.orderGrid.TabIndex = 15;
+            this.orderGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DishGrid_CellClick);
+            this.orderGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FoodGrid_RowHeaderMouseClick);
             // 
-            // stockChangePanel
+            // dishChangePanel
             // 
-            this.stockChangePanel.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.stockChangePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.stockChangePanel.Controls.Add(this.FID_value);
-            this.stockChangePanel.Controls.Add(this.label6);
-            this.stockChangePanel.Controls.Add(this.button2);
-            this.stockChangePanel.Controls.Add(this.name_value);
-            this.stockChangePanel.Controls.Add(this.label9);
-            this.stockChangePanel.Controls.Add(this.label10);
-            this.stockChangePanel.Controls.Add(this.quantity_box);
-            this.stockChangePanel.Enabled = false;
-            this.stockChangePanel.Location = new System.Drawing.Point(6, 6);
-            this.stockChangePanel.Name = "stockChangePanel";
-            this.stockChangePanel.Size = new System.Drawing.Size(121, 99);
-            this.stockChangePanel.TabIndex = 39;
+            this.dishChangePanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.dishChangePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dishChangePanel.Controls.Add(this.FID_value);
+            this.dishChangePanel.Controls.Add(this.label6);
+            this.dishChangePanel.Controls.Add(this.button2);
+            this.dishChangePanel.Controls.Add(this.name_value);
+            this.dishChangePanel.Controls.Add(this.label9);
+            this.dishChangePanel.Controls.Add(this.label10);
+            this.dishChangePanel.Controls.Add(this.quantity_box);
+            this.dishChangePanel.Enabled = false;
+            this.dishChangePanel.Location = new System.Drawing.Point(6, 6);
+            this.dishChangePanel.Name = "dishChangePanel";
+            this.dishChangePanel.Size = new System.Drawing.Size(121, 99);
+            this.dishChangePanel.TabIndex = 39;
             // 
             // FID_value
             // 
@@ -448,23 +452,23 @@
             this.quantity_box.Size = new System.Drawing.Size(59, 20);
             this.quantity_box.TabIndex = 19;
             // 
-            // stockGrid
+            // dishGrid
             // 
-            this.stockGrid.AllowUserToAddRows = false;
-            this.stockGrid.AllowUserToDeleteRows = false;
-            this.stockGrid.AllowUserToResizeColumns = false;
-            this.stockGrid.AllowUserToResizeRows = false;
-            this.stockGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.stockGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.stockGrid.Location = new System.Drawing.Point(130, 6);
-            this.stockGrid.Margin = new System.Windows.Forms.Padding(0);
-            this.stockGrid.MultiSelect = false;
-            this.stockGrid.Name = "stockGrid";
-            this.stockGrid.ReadOnly = true;
-            this.stockGrid.Size = new System.Drawing.Size(499, 216);
-            this.stockGrid.TabIndex = 13;
-            this.stockGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.StockGrid_CellClick);
-            this.stockGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.StockGrid_RowHeaderMouseClick);
+            this.dishGrid.AllowUserToAddRows = false;
+            this.dishGrid.AllowUserToDeleteRows = false;
+            this.dishGrid.AllowUserToResizeColumns = false;
+            this.dishGrid.AllowUserToResizeRows = false;
+            this.dishGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dishGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dishGrid.Location = new System.Drawing.Point(130, 6);
+            this.dishGrid.Margin = new System.Windows.Forms.Padding(0);
+            this.dishGrid.MultiSelect = false;
+            this.dishGrid.Name = "dishGrid";
+            this.dishGrid.ReadOnly = true;
+            this.dishGrid.Size = new System.Drawing.Size(499, 216);
+            this.dishGrid.TabIndex = 13;
+            this.dishGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dishGrid_CellClick);
+            this.dishGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DishGrid_RowHeaderMouseClick);
             // 
             // tabControl
             // 
@@ -472,6 +476,7 @@
             this.tabControl.Controls.Add(this.tablePage);
             this.tabControl.Controls.Add(this.orderPage);
             this.tabControl.Controls.Add(this.stockPage);
+            this.tabControl.Controls.Add(this.WaiterPage);
             this.tabControl.Enabled = false;
             this.tabControl.Location = new System.Drawing.Point(5, 39);
             this.tabControl.Name = "tabControl";
@@ -520,14 +525,14 @@
             // 
             this.partyTextField.Location = new System.Drawing.Point(41, 36);
             this.partyTextField.Name = "partyTextField";
-            this.partyTextField.Size = new System.Drawing.Size(107, 20);
+            this.partyTextField.Size = new System.Drawing.Size(105, 20);
             this.partyTextField.TabIndex = 5;
             // 
             // nameTextField
             // 
             this.nameTextField.Location = new System.Drawing.Point(41, 10);
             this.nameTextField.Name = "nameTextField";
-            this.nameTextField.Size = new System.Drawing.Size(107, 20);
+            this.nameTextField.Size = new System.Drawing.Size(105, 20);
             this.nameTextField.TabIndex = 4;
             // 
             // partyLabel
@@ -571,7 +576,7 @@
             this.waitingGrid.MultiSelect = false;
             this.waitingGrid.Name = "waitingGrid";
             this.waitingGrid.ReadOnly = true;
-            this.waitingGrid.Size = new System.Drawing.Size(466, 213);
+            this.waitingGrid.Size = new System.Drawing.Size(452, 213);
             this.waitingGrid.TabIndex = 1;
             this.waitingGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Waiting_list_cell_clicked);
             this.waitingGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Waiting_list_row_selected);
@@ -594,9 +599,9 @@
             // 
             this.orderPage.Controls.Add(this.panel1);
             this.orderPage.Controls.Add(this.label11);
-            this.orderPage.Controls.Add(this.foodPanel);
+            this.orderPage.Controls.Add(this.dishPanel);
             this.orderPage.Controls.Add(this.priceLabel);
-            this.orderPage.Controls.Add(this.foodGrid);
+            this.orderPage.Controls.Add(this.orderGrid);
             this.orderPage.Location = new System.Drawing.Point(4, 22);
             this.orderPage.Name = "orderPage";
             this.orderPage.Padding = new System.Windows.Forms.Padding(3);
@@ -610,7 +615,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.orderList);
             this.panel1.Controls.Add(this.addOrderButton);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.quantityText);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Enabled = false;
@@ -621,8 +626,8 @@
             // 
             // stockPage
             // 
-            this.stockPage.Controls.Add(this.stockChangePanel);
-            this.stockPage.Controls.Add(this.stockGrid);
+            this.stockPage.Controls.Add(this.dishChangePanel);
+            this.stockPage.Controls.Add(this.dishGrid);
             this.stockPage.Location = new System.Drawing.Point(4, 22);
             this.stockPage.Name = "stockPage";
             this.stockPage.Padding = new System.Windows.Forms.Padding(3);
@@ -630,6 +635,33 @@
             this.stockPage.TabIndex = 3;
             this.stockPage.Text = "Stock";
             this.stockPage.UseVisualStyleBackColor = true;
+            // 
+            // WaiterPage
+            // 
+            this.WaiterPage.Controls.Add(this.waiterGrid);
+            this.WaiterPage.Location = new System.Drawing.Point(4, 22);
+            this.WaiterPage.Name = "WaiterPage";
+            this.WaiterPage.Padding = new System.Windows.Forms.Padding(3);
+            this.WaiterPage.Size = new System.Drawing.Size(632, 225);
+            this.WaiterPage.TabIndex = 4;
+            this.WaiterPage.Text = "Waiters";
+            this.WaiterPage.UseVisualStyleBackColor = true;
+            // 
+            // waiterGrid
+            // 
+            this.waiterGrid.AllowUserToAddRows = false;
+            this.waiterGrid.AllowUserToDeleteRows = false;
+            this.waiterGrid.AllowUserToResizeColumns = false;
+            this.waiterGrid.AllowUserToResizeRows = false;
+            this.waiterGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.waiterGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.waiterGrid.Location = new System.Drawing.Point(3, 3);
+            this.waiterGrid.Margin = new System.Windows.Forms.Padding(0);
+            this.waiterGrid.MultiSelect = false;
+            this.waiterGrid.Name = "waiterGrid";
+            this.waiterGrid.ReadOnly = true;
+            this.waiterGrid.Size = new System.Drawing.Size(631, 216);
+            this.waiterGrid.TabIndex = 29;
             // 
             // Reservation
             // 
@@ -646,12 +678,12 @@
             this.Name = "Reservation";
             this.Text = "Reservation";
             ((System.ComponentModel.ISupportInitialize)(this.tableGrid)).EndInit();
-            this.foodPanel.ResumeLayout(false);
-            this.foodPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.foodGrid)).EndInit();
-            this.stockChangePanel.ResumeLayout(false);
-            this.stockChangePanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.stockGrid)).EndInit();
+            this.dishPanel.ResumeLayout(false);
+            this.dishPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.orderGrid)).EndInit();
+            this.dishChangePanel.ResumeLayout(false);
+            this.dishChangePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dishGrid)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.waitingPage.ResumeLayout(false);
             this.inputPanel.ResumeLayout(false);
@@ -663,6 +695,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.stockPage.ResumeLayout(false);
+            this.WaiterPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.waiterGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -677,25 +711,25 @@
         private System.Windows.Forms.Button assignButton;
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.Button orderButton;
-        private System.Windows.Forms.DataGridView foodGrid;
+        private System.Windows.Forms.DataGridView orderGrid;
         private System.Windows.Forms.Label idLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label nameBox;
         private System.Windows.Forms.TextBox quantity;
-        private System.Windows.Forms.Label foodBox;
+        private System.Windows.Forms.Label dishBox;
         private System.Windows.Forms.Label idBox;
         private System.Windows.Forms.Button deleteOrderButton;
         private System.Windows.Forms.Button changeOrderButton;
         private System.Windows.Forms.Button addOrderButton;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox quantityText;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox orderList;
         private System.Windows.Forms.Label tableNum;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel foodPanel;
-        private System.Windows.Forms.DataGridView stockGrid;
-        private System.Windows.Forms.Panel stockChangePanel;
+        private System.Windows.Forms.Panel dishPanel;
+        private System.Windows.Forms.DataGridView dishGrid;
+        private System.Windows.Forms.Panel dishChangePanel;
         private System.Windows.Forms.Label FID_value;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button2;
@@ -719,6 +753,8 @@
         private System.Windows.Forms.TabPage orderPage;
         private System.Windows.Forms.TabPage stockPage;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TabPage WaiterPage;
+        private System.Windows.Forms.DataGridView waiterGrid;
     }
 }
 
