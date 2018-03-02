@@ -9,7 +9,7 @@ namespace RestaurantReservation
     class Validation
     {
         public static bool IsNameValid(string str) {
-            if (str.Length < 4)
+            if (str.Length < 3)
                 return false;
             foreach (char c in str)
             {
